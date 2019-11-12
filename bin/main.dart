@@ -8,13 +8,9 @@ import 'dart:math';
 // that takes an integer, returning true if the integer is pandigital, and false otherwise.
 //  Examples
 //  isPandigital(98140723568910) ➞ true
-bool isPanDigital(int num){
-  if(num.toString().contains('0')&& num.toString().contains('1') && num.toString().contains('2')&& num.toString().contains('3')&& num.toString().contains('4')&& num.toString().contains('5')&& num.toString().contains('6')&& num.toString().contains('7')&& num.toString().contains('8')&& num.toString().contains('9')){
-    return true;
-  }
-  else{
-    return false;
-  }
+bool isPandigital(int num){
+  List numbers = num.toString().split('').toList();
+  return numbers.toSet().length == 10;
 }
 // Challenge 3
 // Area of Overlapping Rectangles
@@ -42,6 +38,6 @@ int overlappingRectangle(List one, List two){
 }
 
 main() {
-  
+  print(isPandigital(98140723568910));
 
 }
