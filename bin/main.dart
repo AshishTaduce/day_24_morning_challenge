@@ -1,4 +1,8 @@
+import 'dart:core' as prefix1;
+import 'dart:core';
 import 'dart:math';
+
+import 'dart:math' as prefix0;
 
 // Challenge 1
 // Write test cases for the given challenges
@@ -26,49 +30,49 @@ bool isPandigital(int num){
 //    [{ x: 3, y: 2 }, { x: 5, y: 7 }]
 //  ) ➞ 6
 
-bool doOverlap(Map l1, Map r1, Map l2, Map r2) {
-  if (l1['x'] > r2['x'] || l2['x'] > r1['x']) return false; //If rect is on left side
-  return (l1['y'] < r2['y'] || l2['y'] < r1['y']); // If one rectangle is above other
-}
-
 int overlappingRectangles(List one, List two){
-  print(overlappingArea(one[0], one[1], two[0], two[1]))  ;
-  //return(doOverlap(one[0], one[1], two[0], two[1]));
   return (overlappingArea(one[0], one[1], two[0], two[1]));
 }
 
-int overlappingArea(Map l1, Map r1, Map l2, Map r2) {
-  // Area of 1st Rectangle
-  int area1 = (l1['x'] - r1['x']).abs() *
-      (l1['y'] - r1['y']).abs();
+int overlappingArea(Map r11, Map r12, Map r21, Map r22) {
 
-  // Area of 2nd Rectangle
-  int area2 = (l2['x'] - r2['x']).abs() *
-      (l2['y'] - r2['y']).abs();
+  int r1x1 = r11['x'];
+  int r1y1 = r11['y'];
+  int r1x2= r12['x'];
+  int r1y2= r12['y'];
+  int r2x1= r21['x'];
+  int r2y1= r21['y'];
+  int r2x2= r22['x'];
+  int r2y2= r22['y'];
 
-  List <int> rightx= [r1['x'], r2['x']];
-  List <int> leftx= [l1['x'], l2['x']];
-  List <int> righty= [r1['y'], r2['y']];
-  List <int> lefty= [l1['y'], l2['y']];
+  Point r1p1 = Point(r1x1, r1y1);
+  Point r1p2 = Point(r1x2, r1y2);
+  Point r2p1 = Point(r2x1, r2y1);
+  Point r2p2 = Point(r2x2, r2y2);
+  Rectangle one = Rectangle.fromPoints(r1p2, r1p1);
+  Rectangle two = Rectangle.fromPoints(r2p1, r2p2);
+  Rectangle inter  = intersect(one, two);
+  print('${one.topLeft} ${one.topRight} ${one.bottomRight} ${one.bottomLeft}');
+  print('${two.top} ${two.bottom} ${two.right} ${two.left}');
+  print("${inter.top} ${inter.bottom} ${inter.right} ${inter.left} ");
+  return inter.width * inter.height;
+}
 
-  int areaI = (rightx.reduce(min) - leftx.reduce(min)) *
-              (righty.reduce(min) - lefty.reduce(min));
+Rectangle intersect(Rectangle a, Rectangle b) {
+final left = max(a.left, b.left);
+final right = min(a.right, b.right);
+final top = max(a.top, b.top);
+final bottom = min(a.bottom, b.bottom);
 
-  if (areaI < 0){
-    return 0;
-  }
-  else {
-    return (areaI / 2).round();
-  }
+final width = max(0, right - left);
+final height = max(0, bottom - top);
+
+return Rectangle(left, top, width, height);
 }
 
 main() {
   print(isPandigital(98140723568910));
-  print(overlappingRectangles(
-    [{ 'x': 2, 'y': 1 }, { 'x': 5, 'y': 5 }],
-    [{ 'x': 3, 'y': 2 }, { 'x': 5, 'y': 7 }]
-    )
-  );
+
   print(overlappingRectangles(
       [{ 'x': 2, 'y': 1 }, { 'x': 5, 'y': 5 }],
       [{ 'x': 3, 'y': 2 }, { 'x': 5, 'y': 7 }]
